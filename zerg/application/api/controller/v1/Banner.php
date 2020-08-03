@@ -11,7 +11,9 @@ class Banner extends BaseController
      * 获取banner信息
      * @url /banner/:id
      * @http get
-     * @param $id
+     * @param $id int
+     * @return mixed
+     * @throws
      */
     public function getBanner($id)
     {

@@ -14,6 +14,8 @@ class BaseValidate extends Validate
      * 检测所有客户端发来的参数是否符合验证类规则
      * 基类定义了许多自定义验证方法
      * 这些自定义方法可以直接进行调用
+     * @return bool
+     * @throws ParameterException
      */
     public function goCheck()
     {
@@ -41,6 +43,7 @@ class BaseValidate extends Validate
             &&($value + 0) > 0) {
             return true;
         }
-        return $field . '必须是正整数';
+        return false;
+//        return $field . '必须是正整数';
     }
 }

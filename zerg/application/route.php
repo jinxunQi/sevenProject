@@ -14,3 +14,12 @@ use think\Route;
 
 //Banner
 Route::get('api/:version/banner/:id','api/:version.Banner/getBanner');
+
+
+//theme
+Route::get('api/:version/theme', 'api/:version.Theme/getSimpleList');
+
+Route::get('api/:version/theme/:id', 'api/:version.Theme/getComplexOne');
+
+//product
+Route::get('api/:version/product', 'api/:version.Product/getRecent');
