@@ -17,4 +17,18 @@ class Product extends BaseModel
             'create_time' => 'desc'
         ])->select();
     }
+
+
+    /**
+     * 通过categoryId获取栏目下的商品
+     * @param $categoryId
+     * @return mixed
+     * @throws
+     */
+    public static function getProductsByCategoryID($categoryId)
+    {
+        $products = self::where('category_id','eq',$categoryId)
+            ->select();
+        return $products;
+    }
 }

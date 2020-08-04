@@ -3,6 +3,7 @@ namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use app\api\validate\CountValidate;
 use app\api\model\Product as ProductModel;
+use app\api\validate\IDMustBePositiveInt;
 use app\lib\exception\ProductException;
 
 class Product extends BaseController
@@ -22,5 +23,23 @@ class Product extends BaseController
             throw new ProductException();
         }
         return $result;
+    }
+
+
+    /**
+     * 获取指定栏目下的商品
+     * @param $id
+     * @return mixed|\think\Paginator
+     * @throws
+     */
+    public function getAllInCategory($id)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+
+        $products = ProductModel::getProductsByCategoryID($id);
+        if (0 == count($products)) {
+            throw new ProductException();
+        }
+        return $products;
     }
 }
