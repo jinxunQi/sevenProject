@@ -22,6 +22,7 @@ class Product extends BaseController
         if ($result->isEmpty()) {
             throw new ProductException();
         }
+        $result = $result->hidden(['summary']);
         return $result;
     }
 
@@ -40,6 +41,7 @@ class Product extends BaseController
         if (0 == count($products)) {
             throw new ProductException();
         }
+        $products = $products->hidden(['summary']);
         return $products;
     }
 }

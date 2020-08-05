@@ -35,6 +35,11 @@ class BaseValidate extends Validate
 
     /**
      * 自定义验证规则 验证参数必须是正整数
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $field
+     * @return bool
      */
     public function isPositiveInteger($value, $rule = '', $data = '', $field = '')
     {
@@ -45,5 +50,21 @@ class BaseValidate extends Validate
         }
         return false;
 //        return $field . '必须是正整数';
+    }
+
+    /**
+     * 验证参数是否为空
+     * @param $value
+     * @param string $rule
+     * @param array $data
+     * @param string $field
+     * @return bool
+     */
+    public function isNotEmpty($value, $rule = '', $data = [], $field = '')
+    {
+        if (empty($value)) {
+            return false;
+        }
+        return true;
     }
 }
