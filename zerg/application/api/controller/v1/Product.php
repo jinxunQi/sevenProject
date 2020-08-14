@@ -1,5 +1,6 @@
 <?php
 namespace app\api\controller\v1;
+
 use app\api\controller\BaseController;
 use app\api\validate\CountValidate;
 use app\api\model\Product as ProductModel;

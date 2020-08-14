@@ -1,5 +1,6 @@
 <?php
 namespace app\api\controller\v1;
+
 use app\api\controller\BaseController;
 use app\api\validate\IDCollection;
 use app\api\model\Theme as ThemeModel;
@@ -21,7 +22,7 @@ class Theme extends BaseController
         $validate = new IDCollection();
         $validate->goCheck();
 
-        $ids = explode(',',$ids);
+        $ids = explode(',', $ids);
 //        $result = ThemeModel::with(['topicImg','headImg'])->where('id','in',$ids)->select();
         $result = ThemeModel::with(['topicImg','headImg'])->select($ids);
         if ($result->isEmpty()) {

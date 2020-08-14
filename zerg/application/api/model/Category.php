@@ -11,6 +11,6 @@ class Category extends BaseModel
      */
     public function img()
     {
-        return $this->belongsTo(Image::class,'topic_img_id','id');
+        return $this->belongsTo(Image::class, 'topic_img_id', 'id');
     }
 }
