@@ -9,7 +9,7 @@ class Banner extends BaseModel
      */
     public function items()
     {
-        return $this->hasMany('BannerItem','banner_id','id');
+        return $this->hasMany('BannerItem', 'banner_id', 'id');
     }
 
     /**
@@ -22,5 +22,5 @@ class Banner extends BaseModel
     {
         $banner = self::with(['items','items.img'])->find($id);
         return $banner;
-   }
+    }
 }

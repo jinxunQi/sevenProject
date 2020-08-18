@@ -1,5 +1,6 @@
 <?php
 namespace app\api\controller\v1;
+
 use app\api\controller\BaseController;
 use app\api\model\Category as CategoryModel;
 use app\lib\exception\CategoryException;
@@ -14,7 +15,7 @@ class Category extends BaseController
      */
     public function getAllCategories()
     {
-        $categories = CategoryModel::all([],'img');
+        $categories = CategoryModel::all([], 'img');
 
         if (0 == count($categories)) {
             new CategoryException();

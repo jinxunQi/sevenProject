@@ -11,7 +11,7 @@ class Theme extends BaseModel
      */
     public function topicImg()
     {
-        return $this->belongsTo(Image::class,'topic_img_id','id');
+        return $this->belongsTo(Image::class, 'topic_img_id', 'id');
     }
 
     /**
@@ -20,7 +20,7 @@ class Theme extends BaseModel
      */
     public function headImg()
     {
-        return $this->belongsTo(Image::class,'head_img_id','id');
+        return $this->belongsTo(Image::class, 'head_img_id', 'id');
     }
 
     /**
@@ -29,7 +29,7 @@ class Theme extends BaseModel
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class,'theme_product','product_id','theme_id');
+        return $this->belongsToMany(Product::class, 'theme_product', 'product_id', 'theme_id');
     }
 
     /**

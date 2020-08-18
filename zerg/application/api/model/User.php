@@ -1,11 +1,11 @@
 <?php
 namespace app\api\model;
 
-
 class User extends BaseModel
 {
     protected $autoWriteTimestamp = true;
     protected $hidden = ['delete_time','update_time'];
+<<<<<<< HEAD
 
     /**
      * 用户是否存在
@@ -21,3 +21,6 @@ class User extends BaseModel
         return $user;
     }
 }
+=======
+}
+>>>>>>> 1eaf97a7757054bc3e21f9f9e6ba5b7ee8603ddf
