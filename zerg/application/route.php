@@ -11,7 +11,7 @@
 
 use think\Route;
 
-
+//Route::get('test', 'test/Index/index');
 //Banner
 Route::get('api/:version/banner/:id','api/:version.Banner/getBanner');
 
