@@ -31,4 +31,43 @@ class Product extends BaseModel
             ->select();
         return $products;
     }
+
+    /**
+     * 商品关联的商品图（一对多）
+     * @return \think\model\relation\HasMany
+     */
+    public function imgs()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
+
+    /**
+     * 商品关联属性（一对多）
+     * @return \think\model\relation\HasMany
+     */
+    public function properties()
+    {
+        return $this->hasMany(ProductProperty::class, 'product_id', 'id');
+    }
+
+    /**
+     * 通过id获取商品详情
+     * @param $id
+     * @return mixed
+     * @throws
+     */
+    public static function getProductDetail($id)
+    {
+//        $product = self::with(['imgs.imageUrl' ,'properties'])->find($id);
+        //query
+        $product = self::with([
+            'imgs' => function ($query) {
+                $query->with(['imageUrl'])
+                    ->order('order', 'asc');
+            },
+            'properties'
+        ])->find($id);
+
+        return $product;
+    }
 }

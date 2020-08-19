@@ -45,4 +45,23 @@ class Product extends BaseController
         $products = $products->hidden(['summary']);
         return $products;
     }
+
+    /**
+     * 获取商品详情
+     * @param $id
+     * @return mixed
+     * @throws
+     */
+    public function getOne($id)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $product = ProductModel::getProductDetail($id);
+
+        if (!$product) {
+            throw new ProductException();
+        }
+
+        return $product;
+    }
+
 }
