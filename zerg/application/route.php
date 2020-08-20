@@ -40,6 +40,9 @@ Route::group('api/:version/product', function () {
     Route::get('/by_category/:id', '/getAllInCategory');
 }, ['prefix' => 'api/:version.Product']);
 
+//address
+Route::post('api/:version/address', 'api/:version.Address/createAndUpdateAddress');
+
 //category
 Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories');
 
