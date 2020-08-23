@@ -5,7 +5,10 @@ use app\api\model\User;
 use app\api\model\UserAddress;
 use app\api\validate\AddressValidate;
 use app\api\service\Token as TokenService;
+use app\lib\enum\ScopeEnum;
+use app\lib\exception\ForbiddenException;
 use app\lib\exception\SuccessMessage;
+use app\lib\exception\TokenException;
 use app\lib\exception\UserException;
 
 /**
@@ -15,6 +18,32 @@ use app\lib\exception\UserException;
  */
 class Address extends BaseController
 {
+    /**
+     * 前置操作数组
+     * @var array
+     */
+    protected $beforeActionList = [
+        'checkPrimaryScope' => ['only' => 'createAndUpdateAddress'], //添加|更新地址需要验证用户权限
+    ];
+
+    /**
+     * 从token中检测基础权限 scope
+     * @return bool
+     * @throws
+     */
+    public function checkPrimaryScope()
+    {
+        $scope = Tokenservice::getCurrentTokenVar('scope');
+        if ($scope) {
+            if ($scope >= ScopeEnum::User) {
+                return true;
+            }else{
+                throw new ForbiddenException();
+            }
+        }else{
+            throw new TokenException();
+        }
+    }
 
     /**
      * 添加|更新用户地址
