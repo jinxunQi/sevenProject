@@ -1,6 +1,7 @@
 <?php
 namespace app\api\service;
 use app\lib\enum\ScopeEnum;
+use app\lib\exception\ForbiddenException;
 use app\lib\exception\ParameterException;
 use app\lib\exception\TokenException;
 use think\Cache;
@@ -78,5 +79,45 @@ class Token
             return $uid;
         }
         
+    }
+
+    /**
+     * 从token中检测基础权限 scope
+     * (管理员和用户都能访问)
+     * @return bool
+     * @throws
+     */
+    public static function needPrimaryScope()
+    {
+        $scope = self::getCurrentTokenVar('scope');
+        if ($scope) {
+            if ($scope >= ScopeEnum::User) {
+                return true;
+            }else{
+                throw new ForbiddenException();
+            }
+        }else{
+            throw new TokenException();
+        }
+    }
+
+    /**
+     * 客户端用户独享权限
+     * 只有客户端用户才有权限访问
+     * @return bool
+     * @throws
+     */
+    public static function needExclusiveScope()
+    {
+        $scope = self::getCurrentTokenVar('scope');
+        if ($scope) {
+            if ($scope == ScopeEnum::User) {
+                return true;
+            }else{
+                throw new ForbiddenException();
+            }
+        }else{
+            throw new TokenException();
+        }
     }
 }

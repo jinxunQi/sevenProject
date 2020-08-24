@@ -48,3 +48,7 @@ Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories'
 
 //token
 Route::post('api/:version/token/user', 'api/:version.Token/getToken');
+
+//order
+Route::post('api/:version/order', 'api/:version.Order/placeOrder');
+
