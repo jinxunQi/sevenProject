@@ -1,6 +1,7 @@
 <?php
 namespace app\api\controller\v1;
 use app\api\controller\BaseController;
+use app\api\validate\PlaceOrder;
 
 /**
  * 订单控制器
@@ -35,6 +36,7 @@ class Order extends BaseController
      */
     public function placeOrder()
     {
-
+        (new PlaceOrder())->goCheck();
+        $products = input('post.products\a');
     }
 }

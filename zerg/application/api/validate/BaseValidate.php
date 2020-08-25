@@ -69,6 +69,19 @@ class BaseValidate extends Validate
     }
 
     /**
+     * 验证手机号码是否符合
+     * @param $value
+     * @return bool
+     */
+    public function isMobile($value)
+    {
+        if (preg_match('/^1[34578]\d{9}$/', $value)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 通过验证规则中获取参数
      * @param array $arrays
      * @return array
