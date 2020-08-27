@@ -215,7 +215,7 @@ class Order
                 'errorCode' => 60001,
             ]);
         }
-        return $addressInfo;
+        return $addressInfo->toArray();
     }
 
     /**
