@@ -6,6 +6,7 @@ use app\api\model\UserAddress;
 use app\lib\exception\OrderException;
 use app\lib\exception\UserException;
 use app\api\model\Order as OrderModel;
+use think\Db;
 use think\Exception;
 
 /**
@@ -77,6 +78,7 @@ class Order
     /**
      * 通过客户端传递的products
      * 从数据库中匹配相对应的数据
+     * (根据订单信息查找真实的商品信息)
      * @param $oProducts
      * @return mixed
      * @throws
@@ -96,6 +98,25 @@ class Order
             ->visible(['id', 'price', 'stock', 'name', 'main_img_url'])
             ->toArray();
         return $products;
+    }
+
+
+    /**
+     * 检测订单中的商品库存 对外开放(支付接口)
+     * @param $orderId
+     * @return mixed
+     * @throws
+     */
+    public function checkOrderStock($orderId)
+    {
+        //查询下单的订单包含的商品
+        $oProducts = OrderProduct::where('order_id', 'eq', $orderId)
+            ->select();
+        $this->oProducts = $oProducts;
+
+        $this->products = $this->getProductsByOrder($oProducts);
+        $status = $this->getOrderStatus();
+        return $status;
     }
 
     /**
@@ -226,6 +247,7 @@ class Order
      */
     private function createOrder($snapOrder)
     {
+        Db::startTrans();
         try {
             $orderNo = $this->makeOrderNo();
             $order = new OrderModel();
@@ -246,12 +268,14 @@ class Order
                 $product['order_id'] = $orderId;
             }
             $orderProduct->saveAll($this->oProducts);
+            Db::commit();
             return [
                 'order_no' => $orderNo,
                 'order_id' => $orderId,
                 'create_time' => $createTime
             ];
         } catch (Exception $ex) {
+            Db::rollback();
             throw $ex;
         }
     }

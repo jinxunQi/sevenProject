@@ -1,5 +1,6 @@
 <?php
 namespace app\api\service;
+use app\lib\enum\OrderStatusEnum;
 use app\lib\enum\ScopeEnum;
 use app\lib\exception\ForbiddenException;
 use app\lib\exception\ParameterException;
@@ -119,5 +120,24 @@ class Token
         }else{
             throw new TokenException();
         }
+    }
+
+
+    /**
+     * 检查操作UID是否合法
+     * @param $checkUID
+     * @return mixed
+     * @throws
+     */
+    public static function isValidOperate($checkUID)
+    {
+        if (!$checkUID) {
+            throw new Exception(['检查UID时必须传入一个被检查的UID']);
+        }
+        $currentOperateUID = self::getCurrentUid();
+        if ($checkUID == $currentOperateUID) {
+            return true;
+        }
+        return false;
     }
 }
