@@ -1,11 +1,16 @@
 <?php
 namespace app\api\service;
+use app\api\model\Order as OrderModel;
+use app\api\service\Order as OrderService;
 use app\lib\enum\OrderStatusEnum;
 use app\lib\exception\OrderException;
 use app\lib\exception\TokenException;
 use think\Exception;
-use app\api\service\Order as OrderService;
-use app\api\model\Order as OrderModel;
+use think\Loader;
+use think\Log;
+
+// extend/WxPay/WxPay.Api.php
+Loader::import('WxPay.WxPay', EXTEND_PATH, 'Api.php');
 
 /**
  * 支付服务接口
@@ -42,6 +47,50 @@ class Pay
         if (!$status['pass']) {
             return $status;
         }
+
+        return $this->makeWxPreOrder($status['order_price']);
+    }
+
+    /**
+     * 构建微信支付订单信息
+     * @param $totalFee int 订单总价(微信的是分)
+     * @return mixed
+     * @throws
+     */
+    private function makeWxPreOrder($totalFee)
+    {
+        $openId = Token::getCurrentTokenVar('openid');
+        if (!$openId) {
+            throw new TokenException();
+        }
+
+        $wxOrderData = new \WxPayUnifiedOrder();
+        $wxOrderData->SetOut_trade_no($this->orderNo);
+        $wxOrderData->SetTrade_type('JSAPI ');
+        $wxOrderData->SetOpenid($openId);
+        $wxOrderData->SetTotal_fee($totalFee * 100);
+        $wxOrderData->SetBody('零食商贩');
+        $wxOrderData->SetNotify_url('');
+        return $this->getPaySignature($wxOrderData);
+    }
+
+    /**
+     * 向微信请求订单号并生成签名
+     * @param $wxOrderData
+     * @throws
+     */
+    private function getPaySignature($wxOrderData)
+    {
+        $config = new \WxPayConfig();
+        $wxOrder = \WxPayApi::unifiedOrder($config, $wxOrderData);
+        if ($wxOrder['return_code'] != 'SUCCESS'
+            || $wxOrder['result_code'] != 'SUCCESS') {
+            //记录日志
+            Log::record($wxOrder,'error');
+            Log::record('获取预支付订单失败','error');
+        }
+
+
 
     }
 
