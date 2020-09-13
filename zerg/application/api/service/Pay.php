@@ -77,6 +77,7 @@ class Pay
     /**
      * 向微信请求订单号并生成签名
      * @param $wxOrderData
+     * @return mixed
      * @throws
      */
     private function getPaySignature($wxOrderData)
@@ -90,8 +91,50 @@ class Pay
             Log::record('获取预支付订单失败','error');
         }
 
+        //保存prepay_id
+        $this->recordPreOrder($wxOrder);
+        $signature = $this->sign($wxOrder);
+        return $signature;
+    }
 
 
+    /**
+     * 构造拉取微信支付所需的参数
+     * @param $wxOrder
+     * @return array
+     * @throws
+     */
+    private function sign($wxOrder)
+    {
+        $wxPayJsApiData = new \WxPayJsApiPay();
+        $wxPayJsApiData->SetAppid(config('wx.app_id'));
+        $wxPayJsApiData->SetSignType('MD5');
+        $wxPayJsApiData->SetTimeStamp((string)time());
+
+        $rand = md5(time() . mt_rand(0, 1000));
+        $wxPayJsApiData->SetNonceStr($rand);
+
+        $wxPayJsApiData->SetPackage('prepay_id=' . $wxOrder['prepay_id']);
+        $sign = $wxPayJsApiData->MakeSign();//签名参数paySign
+
+        $rawValues = $wxPayJsApiData->GetValues();
+        $rawValues['paySign'] = $sign;
+
+        unset($rawValues['app_id']);
+        return $rawValues;
+    }
+
+    /**
+     * 保存微信预下单的一些数据
+     * prepay_id用于给用户发送消息通知
+     * @param $wxOrder
+     */
+    private function recordPreOrder($wxOrder)
+    {
+        OrderModel::where('id', 'eq', $this->orderId)
+            ->update([
+                'prepay_id' => $wxOrder['prepay_id']
+            ]);
     }
 
     /**
