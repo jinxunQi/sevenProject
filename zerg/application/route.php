@@ -53,5 +53,4 @@ Route::post('api/:version/token/user', 'api/:version.Token/getToken');
 Route::post('api/:version/order', 'api/:version.Order/placeOrder');
 
 //pay
-Route::get('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');
-
+Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');
