@@ -54,3 +54,4 @@ Route::post('api/:version/order', 'api/:version.Order/placeOrder');
 
 //pay
 Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');
+Route::post('api/:version/pay/notify', 'api/:version.Pay/receiveNotify');//异步回调
