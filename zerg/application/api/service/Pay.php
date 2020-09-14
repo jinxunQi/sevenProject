@@ -70,7 +70,7 @@ class Pay
         $wxOrderData->SetOpenid($openId);
         $wxOrderData->SetTotal_fee($totalFee * 100);
         $wxOrderData->SetBody('零食商贩');
-        $wxOrderData->SetNotify_url('');
+        $wxOrderData->SetNotify_url(config('secure.pay_back_url'));
         return $this->getPaySignature($wxOrderData);
     }
 

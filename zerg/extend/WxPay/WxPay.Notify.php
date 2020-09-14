@@ -25,7 +25,7 @@ class WxPayNotify extends WxPayNotifyReply
 			$this->ReplyNotify(false);
 			return;
 		} else {
-			//该分支在成功回调到NotifyCallBack方法，处理完成之后流程
+			//该分支在成功回调到NotnifyCallBack方法，处理完成之后流程
 			$this->SetReturn_code("SUCCESS");
 			$this->SetReturn_msg("OK");
 		}
