@@ -1,9 +1,11 @@
 <?php
 namespace app\api\controller\v1;
 use app\api\controller\BaseController;
+use app\api\validate\PagingParameter;
 use app\api\validate\PlaceOrder;
 use app\api\service\Order as OrderService;
 use app\api\service\Token as TokenService;
+use app\api\model\Order as OrderModel;
 /**
  * 订单控制器
  * Class Order
@@ -45,5 +47,32 @@ class Order extends BaseController
         $order = new OrderService();
         $status = $order->place($uid, $products);
         return $status;
+    }
+
+
+    /**
+     * 获取用户的订单列表分页数据
+     * @param int $page
+     * @param int $size
+     * @return array
+     * @throws \app\lib\exception\ParameterException
+     * @throws \think\exception\DbException
+     */
+    public function getSummaryByUser($page = 1, $size = 15)
+    {
+        (new PagingParameter())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $pagingOrders = OrderModel::getSummaryByUser($uid, $page, $size);
+        //其实可以直接return $pagingData的
+        if ($pagingOrders->isEmpty()) {
+            return [
+                'data' => [],
+                'current_page' => $pagingOrders->getCurrentPage()
+            ];
+        }
+        return [
+            'data' => $pagingOrders->toArray(),
+            'current_page' => $pagingOrders->getCurrentPage()
+        ];
     }
 }
