@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    
   },
 
   /**
@@ -20,17 +20,24 @@ Page({
   _loadData: function (){
     var id = 1;
     var data = home.getBannerData(id, (res)=>{
-      console.log(res);
+      // console.log(res);
       //数据绑定
       this.setData({
         'bannerArr':res
       });
     });
+
+    //加载精品主题数据
+    home.getThemeData((data)=>{
+      this.setData({
+        'themeArr':data
+      });
+    });
   },
 
-  callBack: function(res){
-    console.log(res);//上面使用闭包来代替回调
-  },
+  // callBack: function(res){
+  //   console.log(res);//上面使用闭包来代替回调
+  // },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

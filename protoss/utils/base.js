@@ -24,6 +24,7 @@ class Base {
             success: function(res){
                 if (params.sCallBack) {
                     // params.sCallBack(res);
+                    console.log(res);
                     params.sCallBack(res.data);
                 }
                 //params.sCallBack&&params.sCallBack(res);// 上面的if简写形式

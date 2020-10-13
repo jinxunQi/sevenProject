@@ -22,5 +22,16 @@ class Home extends Base{
         //     }
         // })
     }
+
+    /** 首页精品主题 */
+    getThemeData(callback){
+        var params = {
+            url : 'theme?ids=1,2,3',
+            sCallBack: function (data) {
+                callback && callback(data);
+            }
+        }
+        this.request(params);
+    }
 }
 export {Home}
