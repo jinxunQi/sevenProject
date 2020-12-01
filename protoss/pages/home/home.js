@@ -33,6 +33,13 @@ Page({
         'themeArr':data
       });
     });
+    
+    //加载最近商品数据
+    home.getRecentProductsData((data)=>{
+      this.setData({
+        'productsArr':data
+      });
+    });
   },
 
   // callBack: function(res){

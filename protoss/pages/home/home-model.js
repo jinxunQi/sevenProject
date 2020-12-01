@@ -33,5 +33,16 @@ class Home extends Base{
         }
         this.request(params);
     }
+
+    /** 获取最近新品 */
+    getProductsData(callback){
+        var params = {
+            url : 'product/recent',
+            sCallBack: function (data) {
+                callback && callback(data);
+            }
+        }
+        this.request(params);
+    }
 }
 export {Home}

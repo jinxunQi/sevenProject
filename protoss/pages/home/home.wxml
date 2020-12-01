@@ -1,4 +1,4 @@
-<!-- <import src="../tpls/products/products-tpl.wxml"/> -->
+<import src="../tpls/products/products-tpl.wxml"/>
 <view class="container home-container">
     <swiper indicator-dots="true" autoplay="true" class="swiper">
         <block wx:for="{{bannerArr}}">
@@ -24,6 +24,8 @@
         </view>
         <!--单品首发-->
         <view class="home-main-products">
+            <view class="home-main-header">最近新品</view>
+            <template is="products" data="{{productsArr:productsArr}}"></template>
         </view>
     </view>
 </view>
