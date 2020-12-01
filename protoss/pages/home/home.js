@@ -44,11 +44,21 @@ Page({
 
    // 跳转商品详情
    onProductsItemTap: function (event) {
-    var id = null;
-    wx.navigateTo({
-      url: '../product/product?id=' + id,
+     var id = home.getDataSet(event,'id');
+     wx.navigateTo({
+       url: '../product/product?id=' + id,
     })
-  }
+  },
+
+   // 跳转主题
+   onThemesItemTap: function (event) {
+    var id = home.getDataSet(event,'id');
+    var name = home.getDataSet(event,'name');
+    wx.navigateTo({
+      url: '../product/product?id=' + id + '&name=' + name,
+   })
+ },
+ 
 
   // callBack: function(res){
   //   console.log(res);//上面使用闭包来代替回调
