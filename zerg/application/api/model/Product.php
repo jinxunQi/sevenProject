@@ -70,4 +70,15 @@ class Product extends BaseModel
 
         return $product;
     }
+
+    /**
+     * 图片补全域名
+     * @param $value
+     * @param $data
+     * @return string\
+     */
+    public function getMainImgUrlAttr($value, $data)
+    {
+        return $this->prefixImgUrl($value, $data);
+    }
 }
