@@ -29,7 +29,7 @@
         <!--单品首发-->
         <view class="home-main-products">
             <view class="home-main-header">最近新品</view>
-            <template is="products" data="{{productsArr:productsArr}}"></template>
+            <template is="products" data="{{products:productsArr}}"></template>
         </view>
     </view>
 </view>

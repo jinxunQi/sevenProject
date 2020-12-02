@@ -35,7 +35,7 @@ Page({
     });
     
     //加载最近商品数据
-    home.getRecentProductsData((data)=>{
+    home.getProductsData((data)=>{
       this.setData({
         'productsArr':data
       });
@@ -55,7 +55,7 @@ Page({
     var id = home.getDataSet(event,'id');
     var name = home.getDataSet(event,'name');
     wx.navigateTo({
-      url: '../product/product?id=' + id + '&name=' + name,
+      url: '../theme/theme?id=' + id + '&name=' + name,
    })
  },
  
